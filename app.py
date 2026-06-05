@@ -25,6 +25,7 @@ def get_url(key: str, default: str) -> str:
 
 KEYWORD_URL = get_url("keyword", "https://connectdi-insights.streamlit.app")
 RECRUIT_URL = get_url("recruit", "https://onesglobal-recruit.streamlit.app")
+ACCOUNTING_URL = get_url("accounting", "https://onesglobal-accounting.streamlit.app")
 
 
 st.markdown(
@@ -191,6 +192,16 @@ st.markdown(
         <div class="menu-card-desc">
           Claude AI 기반 이력서 자동 분석. 포지션별 매칭도 점수 · 핵심역량 · 경력사항 ·
           진행 상태 관리. 사람인 공고 자동 연동.
+        </div>
+        <span class="menu-card-cta">→ 입장하기</span>
+      </a>
+
+      <a href="{ACCOUNTING_URL}" target="_blank" class="menu-card">
+        <div class="menu-card-icon">💰</div>
+        <div class="menu-card-title">회계 인사이트</div>
+        <div class="menu-card-desc">
+          2026 영업현황 DB 회계 관점 분석. 미수금 · 월별 발행 매출 ·
+          파이프라인 상태 · 서비스별 매출 · 신규/갱신 비중 · 정산 지연 분석.
         </div>
         <span class="menu-card-cta">→ 입장하기</span>
       </a>
