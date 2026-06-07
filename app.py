@@ -25,7 +25,7 @@ def get_url(key: str, default: str) -> str:
 
 KEYWORD_URL = get_url("keyword", "https://connectdi-insights.streamlit.app")
 RECRUIT_URL = get_url("recruit", "https://onesglobal-recruit.streamlit.app")
-ACCOUNTING_URL = get_url("accounting", "https://onesglobal-accounting.streamlit.app")
+ACCOUNTING_URL = get_url("accounting", "https://finance-dashboard.streamlit.app")
 
 
 st.markdown(
