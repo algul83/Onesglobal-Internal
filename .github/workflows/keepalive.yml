@@ -1,0 +1,22 @@
+on:
+  schedule:
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping apps
+        run: |
+          urls=(
+            "https://onesglobal-recruit.streamlit.app"
+            "https://connectdi-insights.streamlit.app"
+            "https://onesglobal-accounting.streamlit.app"
+            "https://onesglobal.streamlit.app"
+          )
+          for url in "${urls[@]}"; do
+            code=$(curl -sS -L --max-time 90 -o /dev/null -w "%{http_code}" "$url" || echo "000")
+            echo "$code  $url"
+          done
