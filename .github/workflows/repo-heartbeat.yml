@@ -1,0 +1,31 @@
+# GitHub은 60일간 커밋이 없는 저장소의 schedule 워크플로를 자동으로 비활성화한다
+# (state=disabled_inactivity). 2026-06-12 마지막 커밋 → 2026-08-11에 keepalive가
+# 정확히 그렇게 멈췄고, 그 뒤로 Streamlit 앱들이 잠들었다.
+# 이 워크플로가 2주에 한 번 커밋을 남겨 60일 카운터를 계속 리셋한다.
+name: Repo Heartbeat
+
+on:
+  schedule:
+    # 매월 1일 · 15일 KST 03:00
+    - cron: '0 18 1,15 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  heartbeat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record heartbeat
+        run: |
+          set -euo pipefail
+          date -u +'%Y-%m-%dT%H:%M:%SZ' > .github/last-heartbeat.txt
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/last-heartbeat.txt
+          git commit -m 'chore: repo heartbeat (keep scheduled workflows enabled)'
+          git push

@@ -1,3 +1,6 @@
+# 주의: 이 파일명(=워크플로 경로)을 바꾸면 GitHub 상에서는 "새 워크플로"가 된다.
+# keepalive.yml 이 60일 무활동으로 disabled_inactivity 처리되어 멈췄기 때문에
+# 새 경로로 옮겨 자동으로 다시 활성화되도록 했다. 재발 방지는 repo-heartbeat.yml 담당.
 name: Keep Streamlit Apps Awake (Playwright)
 
 on:

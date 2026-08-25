@@ -5,11 +5,14 @@
 
 const { chromium } = require('playwright');
 
-const URLS = [
-  'https://onesglobal-recruit.streamlit.app',
-  'https://onesglobal-accounting.streamlit.app',
-  'https://connectdi-dashboard.streamlit.app',
-  'https://onesglobal.streamlit.app',
+// optional: true 인 URL은 실패해도 job을 red로 만들지 않는다.
+// (배포 여부가 확실치 않은 주소 — 살아 있으면 같이 깨우고, 없으면 경고만)
+const TARGETS = [
+  { url: 'https://onesglobal-recruit.streamlit.app' },
+  { url: 'https://onesglobal-accounting.streamlit.app' },
+  { url: 'https://connectdi-dashboard.streamlit.app' },
+  { url: 'https://connectdi-insights.streamlit.app', optional: true },
+  { url: 'https://onesglobal.streamlit.app' },
 ];
 
 const PAGE_TIMEOUT_MS = 90_000;   // 페이지 로드 + 컨테이너 부팅 여유
@@ -49,15 +52,23 @@ async function pingOne(browser, url) {
 
 (async () => {
   const browser = await chromium.launch({ args: ['--no-sandbox'] });
-  let failures = 0;
-  for (const url of URLS) {
-    const ok = await pingOne(browser, url);
-    if (!ok) failures++;
+  const failures = [];
+  for (const target of TARGETS) {
+    const ok = await pingOne(browser, target.url);
+    if (!ok) failures.push(target);
   }
   await browser.close();
-  if (failures > 0) {
-    console.log(`\n⚠️ ${failures}/${URLS.length} 실패`);
+
+  const fatal = failures.filter((t) => !t.optional);
+  for (const t of failures.filter((t) => t.optional)) {
+    console.log(`⚠️ optional 대상 실패 (무시) — ${t.url}`);
+  }
+
+  const awake = TARGETS.length - failures.length;
+  console.log(`\n${awake}/${TARGETS.length} 컨테이너 awake`);
+
+  if (fatal.length > 0) {
+    console.log(`⚠️ 필수 대상 ${fatal.length}개 실패: ${fatal.map((t) => t.url).join(', ')}`);
     process.exit(1);
   }
-  console.log(`\n✅ 4/4 컨테이너 awake 보장`);
 })();
