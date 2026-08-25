@@ -6,12 +6,10 @@
 const { chromium } = require('playwright');
 
 // optional: true 인 URL은 실패해도 job을 red로 만들지 않는다.
-// (배포 여부가 확실치 않은 주소 — 살아 있으면 같이 깨우고, 없으면 경고만)
 const TARGETS = [
   { url: 'https://onesglobal-recruit.streamlit.app' },
   { url: 'https://onesglobal-accounting.streamlit.app' },
   { url: 'https://connectdi-dashboard.streamlit.app' },
-  { url: 'https://connectdi-insights.streamlit.app', optional: true },
   { url: 'https://onesglobal.streamlit.app' },
 ];
 

@@ -23,7 +23,7 @@ def get_url(key: str, default: str) -> str:
         return os.environ.get(key.upper(), default)
 
 
-KEYWORD_URL = get_url("keyword", "https://connectdi-insights.streamlit.app")
+KEYWORD_URL = get_url("keyword", "https://connectdi-dashboard.streamlit.app")
 RECRUIT_URL = get_url("recruit", "https://onesglobal-recruit.streamlit.app")
 ACCOUNTING_URL = get_url("accounting", "https://onesglobal-accounting.streamlit.app")
 
